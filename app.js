@@ -1,6 +1,6 @@
 'use strict';
 var catV = document.getElementById('v'),
-	cats = ['foody','mshmsh','nemo','nyny','pespes','smarty','utut'],
+	cats = ['foody','mshmsh','nemo','nyny','pespes','smarty','otot'],
 	catNum = [];
 
 for(var i=0 ; i<cats.length ; i++){
