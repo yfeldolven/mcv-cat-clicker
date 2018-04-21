@@ -76,8 +76,7 @@ var octups = {
 
 
 	click : function(i){
-		model[i].clicks ++ ;
-		this.catView(i);
+		return ++ model[i].clicks ;
 	},
 
 	render : function(){
@@ -184,7 +183,7 @@ var view = {
 		catview.appendChild(catImg);
 
 		catImg.onclick = function(){
-			octups.click(i);
+			catNUM.textContent = octups.click(i) ;
 		};
 	},
 
