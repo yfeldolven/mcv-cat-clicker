@@ -54,8 +54,8 @@ var octups = {
 
 
 	addListContent : function(){
-		let i= model.length-1;
-		view.addListContent(model[i].name , i);
+		 let i= model.length-1;
+			view.addListContent(model[i].name , i); 
 	},
 
 	catList : function(){
@@ -79,10 +79,30 @@ var octups = {
 		return ++ model[i].clicks ;
 	},
 
+
+	adminForm : function(i){
+		view.adminForm(
+			i,
+			model[i].name ,
+			model[i].clicks ,
+			model[i].url 
+		);
+	},
+
+
+	save : function(i, name , clicks , url){
+		model[i].name = name ;
+		model[i].clicks = clicks ;
+		model[i].url = url ;
+		this.catView(i);
+		view.listUpdate(i,name);
+	},
+
 	render : function(){
 		view.htmlStructure();
 		view.add();
 		this.catList();
+		this.catView(4);
 	}
 
 };
@@ -131,13 +151,13 @@ var view = {
 		input.setAttribute('placeHolder','Name Your Cat');
 		upload.setAttribute('type','file');
 		submit.setAttribute('type','button');
-		submit.setAttribute('value','submit');
+		submit.setAttribute('value','add cat');
 		div.appendChild(input);
 		div.appendChild(upload);
 		div.appendChild(submit);
 
 		submit.onclick= function(){
-			octups.add(input.value,0,upload.files[0].name);
+			octups.add(input.value , 0 , upload.files[0].name);
 			input.value='';
 			upload.value='';
 			octups.addListContent();
@@ -185,6 +205,84 @@ var view = {
 		catImg.onclick = function(){
 			catNUM.textContent = octups.click(i) ;
 		};
+
+		this.admin(i);
+	},
+
+
+
+
+	admin : function(i){
+		let adminBtn = document.createElement('input'),
+			catview = document.getElementById('cat-view');
+
+		
+		adminBtn.setAttribute('type','button');
+		adminBtn.setAttribute('value','Admin');
+		catview.appendChild(adminBtn);
+
+
+		adminBtn.onclick = function(){
+			if (this.nextElementSibling){
+				this.nextElementSibling.remove();
+			}else {
+				octups.adminForm(i);
+			}
+		};
+	},
+
+
+	adminForm : function(i ,name , clicks , url ){
+		let catName = document.createElement('input'),
+			catUrl = document.createElement('input'),
+			catClicks = document.createElement('input'),
+			save = document.createElement('input') ,
+			cancel = document.createElement('input'),
+			div = document.createElement('div'),
+			catview = document.getElementById('cat-view');
+
+		
+		catName.setAttribute('type','text');
+		catUrl.setAttribute('type','text');
+		catClicks.setAttribute('type','text');
+		save.setAttribute('type','button');
+		cancel.setAttribute('type','button');
+
+		save.setAttribute('value','Save');
+		cancel.setAttribute('value','Cancel');
+
+
+		catName.setAttribute('value', name);
+		catUrl.setAttribute('value', url);
+		catClicks.setAttribute('value', clicks);
+
+
+		div.appendChild(catName);
+		div.appendChild(catClicks);
+		div.appendChild(catUrl);
+		div.appendChild(save);
+		div.appendChild(cancel);
+		catview.appendChild(div);
+
+		save.onclick = function(){
+			octups.save(
+				i,
+				catName.value ,
+				catClicks.value ,
+				catUrl.value
+			);
+		};
+
+		cancel.onclick = function(){
+			this.parentElement.remove();
+		};
+		
+	},
+
+
+
+	listUpdate : function(i,name){
+		document.getElementsByTagName('span')[i].textContent = name ;
 	},
 
 
