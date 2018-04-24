@@ -54,8 +54,8 @@ var octups = {
 
 
 	addListContent : function(){
-		 let i= model.length-1;
-			view.addListContent(model[i].name , i); 
+		let i= model.length-1;
+		view.addListContent(model[i].name , i); 
 	},
 
 	catList : function(){
@@ -95,7 +95,7 @@ var octups = {
 		model[i].clicks = clicks ;
 		model[i].url = url ;
 		this.catView(i);
-		view.listUpdate(i,name);
+		view.listUpdate(i,name,clicks);
 	},
 
 	render : function(){
@@ -204,6 +204,11 @@ var view = {
 
 		catImg.onclick = function(){
 			catNUM.textContent = octups.click(i) ;
+			// update the admin clicks value
+			let adminLiveClicks = document.getElementById('admin-clicks');
+			if (adminLiveClicks){
+				adminLiveClicks.value =  catNUM.textContent ;
+			} 
 		};
 
 		this.admin(i);
@@ -245,6 +250,7 @@ var view = {
 		catName.setAttribute('type','text');
 		catUrl.setAttribute('type','text');
 		catClicks.setAttribute('type','text');
+		catClicks.setAttribute('id','admin-clicks');
 		save.setAttribute('type','button');
 		cancel.setAttribute('type','button');
 
@@ -282,6 +288,7 @@ var view = {
 
 
 	listUpdate : function(i,name){
+		// updade the list
 		document.getElementsByTagName('span')[i].textContent = name ;
 	},
 
